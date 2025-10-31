@@ -1,3 +1,4 @@
+# Criação de cabecalho
 def print_header(title: str, size: int = 40):
     """
     Print do cabeçalho do menu.
@@ -11,6 +12,7 @@ def print_header(title: str, size: int = 40):
     print("+" + "-"*size + "+")
     return
 
+# Menu Principal
 def main_menu():
     """Acoplamento para as funções do menu principal"""
 
@@ -69,6 +71,7 @@ def main_menu_selection() -> int:
     
     return option
 
+# Menu de estatisticas
 def statistics_menu():
     """Acoplamento e loop do menu de estatísticas."""
     option = -1
