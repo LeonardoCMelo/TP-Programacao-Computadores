@@ -1,0 +1,14 @@
+# Arquivos de cache do Python
+__pycache__/
+*.pyc
+
+# Checkpoints automáticos do Jupyter
+.ipynb_checkpoints/
+
+# Dados processados e saídas
+data/processed/
+figures/
+
+# Arquivos temporários
+*.tmp
+*.log

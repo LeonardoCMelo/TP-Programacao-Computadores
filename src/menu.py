@@ -1,3 +1,8 @@
+
+def main_menu():
+    show_main_menu()
+    main_menu_selection()
+
 def show_main_menu():
     """
     Função para mostrar o menu principal
@@ -6,8 +11,37 @@ def show_main_menu():
     print("+" + "-"*size + "+")
     print("|" + " Menu principal ".center(size) + "|")
     print("+" + "-"*size + "+")
-    print(f"| 1. {"Estatísticas de manchas solares":<{size-4}}|")
-    print(f"| 2. {"Gráficos e visualizações":<{size-4}}|")
-    print(f"| 3. {"Análise de ciclos solares":<{size-4}}|")
+    options = [
+        "Estatísticas de manchas solares",
+        "Gráficos e visualizações",
+        "Análise de ciclos solares",
+    ]
+    for i in range(len(options)):
+        print(f"| {i+1}. {options[i]:<{size-4}}|")
     print("+" + "-"*size + "+")
+    return
+
+def main_menu_selection():
+    """
+    Função para selecionar a opção certa do Menu Principal
+    """
+    selecting = True
+
+    while selecting:
+        try:
+            select = int(input("Sua opção: "))
+
+            if select < 1 or select > 3:
+                raise ValueError
+            
+            selecting = False  
+        except ValueError:
+            print("Por favor digite um número de 1 a 3!")
+
+    if select == 1:
+        pass
+    elif select == 2:
+        pass
+    elif select == 3:
+        pass
     return
