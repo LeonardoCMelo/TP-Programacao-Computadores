@@ -1,4 +1,5 @@
 from spot_analysis import *
+from help_functions import *
 
 # Criação de cabecalho
 def print_header(title: str, size: int = 42):
@@ -85,15 +86,21 @@ def statistics_menu(monthly_data: dict, daily_data: dict):
             print("Voltando ao Menu Principal...\n")
         elif option == 1:
             year = int(input("Digite o ano: "))
-            resultado = count_days_without_spot(daily_data, year)
+            result = count_days_without_spot(daily_data, year)
             print(f"Dias sem manchas em cada mês de {year}:")
-            for i, dias in enumerate(resultado, start=1):
+            for i, dias in enumerate(result, start=1):
                 if dias is not None:
                     print(f"  Mês {i:02d}: {dias} dias sem manchas")
                 else:
                     print(f"  Mês {i:02d}: sem dados")
         elif option == 2:
-            pass
+            date1 = input("Digite a primeira data no formato dd/mm/yyyy : ")
+            date2 = input("Digite a segunda data no formato dd/mm/yyyy : ")
+            result = year_month_without_sunspots(daily_data, date1, date2)
+            if None in result:
+                print()
+            else:
+                print(f"Entre {date1} e {date2} o mes que teve mais dias sem manchas solares foi {month_int2str(result[0])} de {result[1]}")
         elif option == 3:
             pass
         elif option == 4:
@@ -105,12 +112,14 @@ def show_statistics_menu():
     Função para printar o menu de Estatisticas.
     """
     
-    size: int = 42 # Largura máxima
+    size: int = 60 # Largura máxima
 
     options = [
         "Voltar",
-        "Dias sem manchas em um mês",
-        "Mês com mais manchas em um intervalo",
+        "Dias sem manchas em um ano",
+        "Ano e mês com mais dias sem manchas em um intervalo",
+        "Ano e mês com mais manchas em um intervalo",
+        "Máximo e mínimo de manchas em um intervalo",
         "Média mensal de manchas",
         "Desvio padrão mensal",
     ]
