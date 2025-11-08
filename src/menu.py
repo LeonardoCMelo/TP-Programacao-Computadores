@@ -1,6 +1,47 @@
 from spot_analysis import *
 from help_functions import *
 
+# Criador de menus
+def show_menu(title: str, options: list, size: int):
+    """
+    Imprime um menu com o cabeçalho e as opções.
+
+    Args:
+        title (str): Título do menu
+        options (list): Lista de opções do menu
+        size (int): Largura do menu
+    """
+    print_header(title, size)
+    for i, option in enumerate(options):
+        print(f"| {i}. {option:<{size-4}}|")
+    print("+" + "-"*size + "+")
+    return
+
+def menu_selection(option_quant: int) -> int:
+    """
+    Função para selecionar as opções dos menus.
+    
+    Args:
+        option_quant(int): quantidade de opções do menu.
+
+    Returns: 
+        Opção selecionada.
+    """
+    isSelecting = True
+
+    while isSelecting:
+        try:
+            option = int(input("Sua opção: "))
+
+            if option not in range(0,option_quant+1):
+                raise ValueError
+            
+            isSelecting = False  
+        except ValueError:
+            print(f"Por favor digite um número de 0 a {option_quant}!")
+    
+    return option
+
 # Criação de cabecalho
 def print_header(title: str, size: int = 42):
     """
@@ -17,13 +58,26 @@ def print_header(title: str, size: int = 42):
 
 # Menu Principal
 def main_menu(monthly_data: dict, daily_data: dict):
-    """Acoplamento para as funções do menu principal"""
+    """
+    Acoplamento para as funções do menu principal
+
+    Args:
+        monthly_data (dict): Dados mensais
+        daily_data (dict): Dados diários
+    """
+    options = [
+        "Sair",
+        "Estatísticas de manchas solares",
+        "Gráficos e visualizações",
+        "Análise de ciclos solares",
+    ]
 
     isRunning = True
 
     while isRunning:
-        show_main_menu()
-        select = main_menu_selection()
+        show_menu("Menu Principal", options, 40)
+        #show_main_menu()
+        select = menu_selection(len(options)-1)
 
         if select == 0:
             print("Encerrando programa...")
@@ -36,51 +90,24 @@ def main_menu(monthly_data: dict, daily_data: dict):
             pass
     return
 
-def show_main_menu():
-    """
-    Função para printar o menu principal
-    """
-    size: int = 42 # largura maxima
-    print_header("Menu principal", size)
-    options = [
-        "Sair",
-        "Estatísticas de manchas solares",
-        "Gráficos e visualizações",
-        "Análise de ciclos solares",
-    ]
-    for i, option in enumerate(options):
-        print(f"| {i}. {option:<{size-4}}|")
-    print("+" + "-"*size + "+")
-    return
-
-def main_menu_selection() -> int:
-    """
-    Função para selecionar as opções do Menu Principal.
-
-    Retorno: Opção selecionada.
-    """
-    isSelecting = True
-
-    while isSelecting:
-        try:
-            option = int(input("Sua opção: "))
-
-            if option not in range(0,4):
-                raise ValueError
-            
-            isSelecting = False  
-        except ValueError:
-            print("Por favor digite um número de 0 a 3!")
-    
-    return option
-
 # Menu de estatisticas
 def statistics_menu(monthly_data: dict, daily_data: dict):
-    """Acoplamento e loop do menu de estatísticas."""
+    """Acoplamento para as funções do menu de estatísticas."""
+
+    options = [
+        "Voltar",
+        "Dias sem manchas em um ano",
+        "Ano e mês com mais dias sem manchas em um intervalo",
+        "Ano e mês com mais manchas em um intervalo",
+        "Máximo e mínimo de manchas em um intervalo",
+        "Média mensal de manchas",
+        "Desvio padrão mensal",
+    ]
+
     option = -1
     while option != 0:
-        show_statistics_menu()
-        option = statistics_menu_selection()
+        show_menu("Menu de Estatisticas", options, 60)
+        option = menu_selection(len(options)-1)
 
         if option == 0:
             print("Voltando ao Menu Principal...\n")
@@ -106,47 +133,3 @@ def statistics_menu(monthly_data: dict, daily_data: dict):
         elif option == 4:
             pass
     return
-
-def show_statistics_menu():
-    """
-    Função para printar o menu de Estatisticas.
-    """
-    
-    size: int = 60 # Largura máxima
-
-    options = [
-        "Voltar",
-        "Dias sem manchas em um ano",
-        "Ano e mês com mais dias sem manchas em um intervalo",
-        "Ano e mês com mais manchas em um intervalo",
-        "Máximo e mínimo de manchas em um intervalo",
-        "Média mensal de manchas",
-        "Desvio padrão mensal",
-    ]
-    print_header("Menu de Estatisticas", size)
-
-    for i, option in enumerate(options):
-        print(f"| {i}. {option:<{size-4}}|")
-
-    print("+" + "-"*size + "+")
-    return
-
-def statistics_menu_selection() -> int:
-    """
-    Função para selecionar as opções do Menu de Estatisticas.
-
-    Retorno: Opção selecionada.
-    """
-    isSelecting = True
-    while isSelecting:
-        try:
-            option = int(input("Sua opção: "))
-
-            if option not in range(5):
-                raise ValueError
-            
-            isSelecting = False
-
-        except ValueError:
-            print("Por favor digite um número de 0 a 4!")
-    return option
