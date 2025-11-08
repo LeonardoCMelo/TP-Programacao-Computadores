@@ -1,5 +1,7 @@
+from spot_analysis import *
+
 # Criação de cabecalho
-def print_header(title: str, size: int = 40):
+def print_header(title: str, size: int = 42):
     """
     Print do cabeçalho do menu.
 
@@ -13,7 +15,7 @@ def print_header(title: str, size: int = 40):
     return
 
 # Menu Principal
-def main_menu():
+def main_menu(monthly_data: dict, daily_data: dict):
     """Acoplamento para as funções do menu principal"""
 
     isRunning = True
@@ -26,7 +28,7 @@ def main_menu():
             print("Encerrando programa...")
             isRunning = False
         elif select == 1:
-            statistics_menu()
+            statistics_menu(monthly_data, daily_data)
         elif select == 2:
             pass
         elif select == 3:
@@ -37,7 +39,7 @@ def show_main_menu():
     """
     Função para printar o menu principal
     """
-    size: int = 40 # largura maxima
+    size: int = 42 # largura maxima
     print_header("Menu principal", size)
     options = [
         "Sair",
@@ -72,7 +74,7 @@ def main_menu_selection() -> int:
     return option
 
 # Menu de estatisticas
-def statistics_menu():
+def statistics_menu(monthly_data: dict, daily_data: dict):
     """Acoplamento e loop do menu de estatísticas."""
     option = -1
     while option != 0:
@@ -82,7 +84,14 @@ def statistics_menu():
         if option == 0:
             print("Voltando ao Menu Principal...\n")
         elif option == 1:
-            pass
+            year = int(input("Digite o ano: "))
+            resultado = count_days_without_spot(daily_data, year)
+            print(f"Dias sem manchas em cada mês de {year}:")
+            for i, dias in enumerate(resultado, start=1):
+                if dias is not None:
+                    print(f"  Mês {i:02d}: {dias} dias sem manchas")
+                else:
+                    print(f"  Mês {i:02d}: sem dados")
         elif option == 2:
             pass
         elif option == 3:
@@ -96,7 +105,7 @@ def show_statistics_menu():
     Função para printar o menu de Estatisticas.
     """
     
-    size: int = 40 # Largura máxima
+    size: int = 42 # Largura máxima
 
     options = [
         "Voltar",
