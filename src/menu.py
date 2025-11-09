@@ -129,7 +129,13 @@ def statistics_menu(monthly_data: dict, daily_data: dict):
             else:
                 print(f"Entre {date1} e {date2} o mes que teve mais dias sem manchas solares foi {month_int2str(result[0])} de {result[1]}")
         elif option == 3:
-            pass
+            date1 = input("Digite a primeira data no formato dd/mm/yyyy : ")
+            date2 = input("Digite a segunda data no formato dd/mm/yyyy : ")
+            result = year_month_most_sunspots(daily_data, date1, date2)
+            if None in result:
+                print()
+            else:
+                print(f"Entre {date1} e {date2} o mes que teve mais manchas solares foi {month_int2str(result[0])} de {result[1]}")
         elif option == 4:
             pass
     return
