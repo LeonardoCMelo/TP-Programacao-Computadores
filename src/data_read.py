@@ -52,9 +52,8 @@ def read_daily_data(file_path: str) -> dict:
                 if month not in data[year]:
                     data[year][month] = {}
                 
-                data[year][month][day] = {
-                    "daily_sunspot": daily_sunspot,
-                }
+                data[year][month][day] = daily_sunspot
+
     except FileNotFoundError:
         print(f"O arquivo '{file_path}' não foi encontrado. Verifique se foi salvo conforme as instruções no Notebook.")
     return data
