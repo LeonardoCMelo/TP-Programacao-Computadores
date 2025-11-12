@@ -117,9 +117,9 @@ def statistics_menu(monthly_data: dict, daily_data: dict):
             print(f"Dias sem manchas em cada mês de {year}:")
             for i, dias in enumerate(result, start=1):
                 if dias is not None:
-                    print(f"  Mês {i:02d}: {dias} dias sem manchas")
+                    print(f"Mês {i:02d}: {dias} dias sem manchas")
                 else:
-                    print(f"  Mês {i:02d}: sem dados")
+                    print(f"Mês {i:02d}: sem dados")
         elif option == 2:
             date1 = input("Digite a primeira data no formato dd/mm/yyyy : ")
             date2 = input("Digite a segunda data no formato dd/mm/yyyy : ")
@@ -137,5 +137,13 @@ def statistics_menu(monthly_data: dict, daily_data: dict):
             else:
                 print(f"Entre {date1} e {date2} o mes que teve mais manchas solares foi {month_int2str(result[0])} de {result[1]}")
         elif option == 4:
-            pass
+            date1 = input("Digite a primeira data no formato dd/mm/yyyy : ")
+            date2 = input("Digite a segunda data no formato dd/mm/yyyy : ")
+            result = max_min_sunspots(daily_data, date1, date2)
+            if None in result:
+                print()
+            else:
+                print(f"Entre as datas de {date1} e {date2}:")
+                print(f"Valor máximo de manchas solares: {result[0]}")
+                print(f"Valor mínimo de manchas solares: {result[1]}")
     return

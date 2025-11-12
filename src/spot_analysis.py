@@ -73,3 +73,25 @@ def year_month_most_sunspots(daily_data: dict, date1: str, date2: str) -> tuple[
                 best_year, best_month = year, month
 
     return best_month, best_year
+
+def max_min_sunspots(daily_data: dict[dict[dict[int]]], date1: str, date2: str) -> tuple[int, int]:
+    max_sunspot = None
+    min_sunspot = None
+
+    d1, m1, y1 = date_str2int(date1)
+    d2, m2, y2 = date_str2int(date2)
+
+    if None in (d1, m1, y1, d2, m2, y2):
+        return None, None
+    
+    for year in range(y1, y2 + 1):
+        first_month = m1 if year == y1 else 1
+        last_month = m2 if year == y2 else 12
+        for month in range(first_month, last_month + 1):
+            for day in daily_data[year][month]:
+                value = daily_data[year][month][day]
+                if max_sunspot == None or value>max_sunspot:
+                    max_sunspot = value
+                elif min_sunspot == None or value<min_sunspot:
+                    min_sunspot = value
+    return max_sunspot, min_sunspot
