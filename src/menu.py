@@ -11,7 +11,11 @@ def show_menu(title: str, options: list, size: int):
         title (str): Título do menu
         options (list): Lista de opções do menu
         size (int): Largura do menu
+    
+    Returns:
+        None
     """
+
     print_header(title, size)
     for i, option in enumerate(options):
         print(f"| {i}. {option:<{size-4}}|")
@@ -28,6 +32,7 @@ def menu_selection(option_quant: int) -> int:
     Returns: 
         Opção selecionada.
     """
+
     isSelecting = True
 
     while isSelecting:
@@ -48,10 +53,14 @@ def print_header(title: str, size: int = 42):
     """
     Print do cabeçalho do menu.
 
-    title: Título do menu.
+    Args:
+        title: Título do menu.
+        size: Largura máxima do menu.
 
-    size: Largura máxima do menu.
+    Returns:
+        None
     """
+
     print("+" + "-"*size + "+")
     print("|" + f" {title} ".center(size) + "|")
     print("+" + "-"*size + "+")
@@ -65,7 +74,10 @@ def main_menu(monthly_data: dict, daily_data: dict):
     Args:
         monthly_data (dict): Dados mensais
         daily_data (dict): Dados diários
+    Returns:
+        None
     """
+    
     options = [
         "Sair",
         "Estatísticas de manchas solares",
@@ -101,7 +113,15 @@ def main_menu(monthly_data: dict, daily_data: dict):
 
 # Menu de estatisticas
 def statistics_menu(monthly_data: dict, daily_data: dict):
-    """Acoplamento para as funções do menu de estatísticas."""
+    """Acoplamento para as funções do menu de estatísticas.
+    
+    Args:
+        monthly_data (dict): Dados mensais
+        daily_data (dict): Dados diários
+    
+    Returns:
+        None
+    """
 
     options = [
         "Voltar",

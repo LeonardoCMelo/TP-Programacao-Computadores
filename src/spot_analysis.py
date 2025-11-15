@@ -1,6 +1,17 @@
 from help_functions import date_str2int
 
 def count_days_without_spot(daily_data: dict, year: int) -> list:
+    """
+    Conta o número de dias sem manchas solares para cada mês de um ano específico.
+
+    Args:
+        daily_data (dict): Dados diários de manchas solares.
+        year (int): Ano para o qual contar os dias sem manchas.
+
+    Returns:
+        list: Lista com o número de dias sem manchas para cada mês (índices 0-11 correspondem a janeiro-dezembro).
+    """
+    
     result = []
     for month in range(1, 13):
         if year in daily_data and month in daily_data[year]:
@@ -15,6 +26,18 @@ def count_days_without_spot(daily_data: dict, year: int) -> list:
     return result
 
 def year_month_without_sunspots(daily_data: dict, date1: str, date2: str) -> tuple[int, int]:
+    """
+    Encontra o ano e mês com o maior número de dias sem manchas solares em um intervalo de datas.
+
+    Args:
+        daily_data (dict): Dados diários de manchas solares.
+        date1 (str): Data inicial no formato "dd/mm/aaaa".
+        date2 (str): Data final no formato "dd/mm/aaaa".
+
+    Returns:
+        tuple[int, int]: Tupla contendo (mês, ano) com o maior número de dias sem manchas solares.
+    """
+
     _, m1, y1 = date_str2int(date1)
     _, m2, y2 = date_str2int(date2)
 
@@ -43,6 +66,18 @@ def year_month_without_sunspots(daily_data: dict, date1: str, date2: str) -> tup
     return best_month, best_year
 
 def year_month_most_sunspots(daily_data: dict, date1: str, date2: str) -> tuple[int, int]:
+    """
+    Encontra o ano e mês com o maior número de manchas solares em um intervalo de datas.
+    
+    Args:
+        daily_data (dict): Dados diários de manchas solares.
+        date1 (str): Data inicial no formato "dd/mm/aaaa".
+        date2 (str): Data final no formato "dd/mm/aaaa".
+    
+    Returns:
+        tuple[int, int]: Tupla contendo (mês, ano) com o maior número de manchas solares.
+    """
+
     d1, m1, y1 = date_str2int(date1)
     d2, m2, y2 = date_str2int(date2)
 
@@ -75,6 +110,18 @@ def year_month_most_sunspots(daily_data: dict, date1: str, date2: str) -> tuple[
     return best_month, best_year
 
 def max_min_sunspots(daily_data: dict[dict[dict[int]]], date1: str, date2: str) -> tuple[int, int]:
+    """
+    Encontra o valor máximo e mínimo de manchas solares em um intervalo de datas.
+
+    Args:
+        daily_data (dict): Dados diários de manchas solares.
+        date1 (str): Data inicial no formato "dd/mm/aaaa".
+        date2 (str): Data final no formato "dd/mm/aaaa".
+
+    Returns:
+        tuple[int, int]: Tupla contendo (máximo, mínimo) de manchas solares.
+    """
+
     max_sunspot = None
     min_sunspot = None
 

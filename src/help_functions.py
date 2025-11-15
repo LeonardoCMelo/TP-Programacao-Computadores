@@ -50,6 +50,7 @@ def date_to_decimal_year(year: int, month: int, day: int = 15) -> float:
     Returns:
         float: Ano em formato decimal.
     """
+    
     return year + (month - 1)/12 + (day - 1)/365
 
 def get_year_range(data: dict) -> tuple[int, int]:

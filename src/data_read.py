@@ -1,4 +1,14 @@
 def read_monthly_data(file_path: str) -> dict:
+    """
+    Lê os dados mensais de manchas solares de um arquivo e os organiza em um dicionário.
+    
+    Args:
+        file_path (str): Caminho para o arquivo de dados mensais.
+    
+    Returns:
+        dict: Dicionário contendo os dados mensais organizados por ano e mês.
+    """
+
     data = {}
     try:
         with open(file_path, "r", encoding="utf-8") as file:
@@ -28,7 +38,16 @@ def read_monthly_data(file_path: str) -> dict:
     return data
 
 def read_daily_data(file_path: str) -> dict:
-
+    """
+    Lê os dados diários de manchas solares de um arquivo e os organiza em um dicionário.
+    
+    Args:
+        file_path (str): Caminho para o arquivo de dados diários.
+    
+    Returns:
+        dict: Dicionário contendo os dados diários organizados por ano, mês e dia.
+    """
+    
     data = {}
     try:
         with open(file_path, "r", encoding="utf-8") as file:
