@@ -1,3 +1,4 @@
+from graph import plot_sunspot_graph
 from spot_analysis import *
 from help_functions import *
 
@@ -76,7 +77,6 @@ def main_menu(monthly_data: dict, daily_data: dict):
 
     while isRunning:
         show_menu("Menu Principal", options, 40)
-        #show_main_menu()
         select = menu_selection(len(options)-1)
 
         if select == 0:
@@ -85,7 +85,16 @@ def main_menu(monthly_data: dict, daily_data: dict):
         elif select == 1:
             statistics_menu(monthly_data, daily_data)
         elif select == 2:
-            pass
+            minYear, maxYear = get_year_range(daily_data)
+            try:
+                startYear = int(input(f"Digite o ano inicial para o gráfico entre {minYear} e {maxYear}: "))
+                endYear = int(input(f"Digite o ano final para o gráfico entre {startYear} e {maxYear}: "))
+                if not (minYear <= startYear <= maxYear and minYear <= endYear <= maxYear and startYear < endYear):
+                    raise ValueError
+                plot_sunspot_graph(daily_data, monthly_data, startYear, endYear)
+            except ValueError:
+                print(f"⚠️ Entrada inválida. Por favor, insira anos válidos.")
+                continue
         elif select == 3:
             pass
     return
