@@ -17,7 +17,10 @@ def read_monthly_data(file_path: str) -> dict:
                     continue
 
                 parts = line.split()
-
+                
+                if len(parts) < 5:
+                    continue
+                
                 year = int(parts[0])
                 month = int(parts[1])
                 month_avg = float(parts[3])
@@ -56,6 +59,9 @@ def read_daily_data(file_path: str) -> dict:
                     continue
 
                 parts = line.split()
+
+                if len(parts) < 5:
+                    continue
 
                 year = int(parts[0])
                 month = int(parts[1])

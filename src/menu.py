@@ -39,12 +39,12 @@ def menu_selection(option_quant: int) -> int:
         try:
             option = int(input("Sua opção: "))
 
-            if option not in range(0,option_quant+1):
+            if option not in range(0, option_quant):
                 raise ValueError
             
             isSelecting = False  
         except ValueError:
-            print(f"Por favor digite um número de 0 a {option_quant}!")
+            print(f"Por favor digite um número de 0 a {option_quant - 1}!")
     
     return option
 
@@ -62,7 +62,7 @@ def print_header(title: str, size: int = 42):
     """
 
     print("+" + "-"*size + "+")
-    print("|" + f" {title} ".center(size) + "|")
+    print("|" + f"{title}".center(size) + "|")
     print("+" + "-"*size + "+")
     return
 
@@ -89,7 +89,7 @@ def main_menu(monthly_data: dict, daily_data: dict):
 
     while isRunning:
         show_menu("Menu Principal", options, 40)
-        select = menu_selection(len(options)-1)
+        select = menu_selection(len(options))
 
         if select == 0:
             print("Encerrando programa...")
@@ -136,7 +136,7 @@ def statistics_menu(monthly_data: dict, daily_data: dict):
     option = -1
     while option != 0:
         show_menu("Menu de Estatisticas", options, 60)
-        option = menu_selection(len(options)-1)
+        option = menu_selection(len(options))
 
         if option == 0:
             print("Voltando ao Menu Principal...\n")

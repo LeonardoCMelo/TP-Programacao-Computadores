@@ -137,8 +137,14 @@ def max_min_sunspots(daily_data: dict[dict[dict[int]]], date1: str, date2: str) 
         for month in range(first_month, last_month + 1):
             for day in daily_data[year][month]:
                 value = daily_data[year][month][day]
-                if max_sunspot == None or value>max_sunspot:
+
+                if value is None:
+                    continue
+
+                if max_sunspot == None or value > max_sunspot:
                     max_sunspot = value
-                elif min_sunspot == None or value<min_sunspot:
+
+                if min_sunspot == None or value < min_sunspot:
                     min_sunspot = value
+
     return max_sunspot, min_sunspot

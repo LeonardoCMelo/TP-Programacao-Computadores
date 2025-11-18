@@ -15,14 +15,14 @@ def build_daily_series(daily_data: dict, startYear: int, endYear: int) -> tuple[
     dates = []
     values = []
 
-    for year, months in daily_data.items():
+    for year in sorted(daily_data):
         if not (startYear <= year <= endYear):
             continue
-
-        for month, days in months.items():
-            for day, value in days.items():
+        for month in sorted(daily_data[year]):
+            for day in sorted(daily_data[year][month]):
+                value = daily_data[year][month][day]
                 dates.append(date_to_decimal_year(year, month, day))
-                values.append(value)
+                values.append(0 if value is None else value)
 
     return dates, values
 
@@ -38,7 +38,9 @@ def plot_sunspot_graph(daily_data: dict, monthly_data: dict, startYear: int, end
     """
     
     d_dates, d_vals = build_daily_series(daily_data, startYear, endYear)
-
+    
+    plt.ion()
+    
     plt.figure(figsize=(14, 7))
 
     plt.plot(d_dates, d_vals, color="gold", linewidth=0.5, label="Daily")
@@ -51,5 +53,7 @@ def plot_sunspot_graph(daily_data: dict, monthly_data: dict, startYear: int, end
 
     plt.legend()
     plt.tight_layout()
-    plt.show()
+    
+    plt.show(block=False)
+
     return

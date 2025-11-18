@@ -1,5 +1,6 @@
 from menu import main_menu
 from data_read import *
+from pathlib import Path
 
 def main():
     """
@@ -8,9 +9,13 @@ def main():
     Returns:
         None
     """
+
+    file_path = Path("data/raw/SN_m_tot_V2.0.txt")
+    monthly_data = read_monthly_data(file_path)
     
-    monthly_data = read_monthly_data("D:\\Users\\leona\\Documents\\UFMG\\2025_2\\PC\\TP-Programacao-Computadores\\data\\raw\\SN_m_tot_V2.0.txt")
-    daily_data = read_daily_data("D:\\Users\\leona\\Documents\\UFMG\\2025_2\\PC\\TP-Programacao-Computadores\\data\\raw\\SN_d_tot_V2.0.txt")
+    file_path = Path("data/raw/SN_d_tot_V2.0.txt")
+    daily_data = read_daily_data(file_path)
+    
     main_menu(monthly_data, daily_data)
     return
 
