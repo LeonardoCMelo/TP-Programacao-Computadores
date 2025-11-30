@@ -129,7 +129,7 @@ def statistics_menu(monthly_data: dict, daily_data: dict):
         "Ano e mês com mais dias sem manchas em um intervalo",
         "Ano e mês com mais manchas em um intervalo",
         "Máximo e mínimo de manchas em um intervalo",
-        "Média mensal de manchas",
+        "Média mensal de manchas num determinado ano",
         "Desvio padrão mensal",
     ]
 
@@ -140,6 +140,7 @@ def statistics_menu(monthly_data: dict, daily_data: dict):
 
         if option == 0:
             print("Voltando ao Menu Principal...\n")
+        
         elif option == 1:
             year = int(input("Digite o ano: "))
             result = count_days_without_spot(daily_data, year)
@@ -149,30 +150,67 @@ def statistics_menu(monthly_data: dict, daily_data: dict):
                     print(f"Mês {i:02d}: {dias} dias sem manchas")
                 else:
                     print(f"Mês {i:02d}: sem dados")
+        
         elif option == 2:
             date1 = input("Digite a primeira data no formato dd/mm/yyyy : ")
             date2 = input("Digite a segunda data no formato dd/mm/yyyy : ")
             result = year_month_without_sunspots(daily_data, date1, date2)
             if None in result:
-                print()
+                print("Entrada de data inválida ou dados indisponíveis no intervalo fornecido.")
             else:
                 print(f"Entre {date1} e {date2} o mes que teve mais dias sem manchas solares foi {month_int2str(result[0])} de {result[1]}")
+        
         elif option == 3:
             date1 = input("Digite a primeira data no formato dd/mm/yyyy : ")
             date2 = input("Digite a segunda data no formato dd/mm/yyyy : ")
             result = year_month_most_sunspots(daily_data, date1, date2)
             if None in result:
-                print()
+                print("Entrada de data inválida ou dados indisponíveis no intervalo fornecido.")
             else:
                 print(f"Entre {date1} e {date2} o mes que teve mais manchas solares foi {month_int2str(result[0])} de {result[1]}")
+        
         elif option == 4:
             date1 = input("Digite a primeira data no formato dd/mm/yyyy : ")
             date2 = input("Digite a segunda data no formato dd/mm/yyyy : ")
             result = max_min_sunspots(daily_data, date1, date2)
             if None in result:
-                print()
+                print("Entrada de data inválida ou dados indisponíveis no intervalo fornecido.")
             else:
                 print(f"Entre as datas de {date1} e {date2}:")
                 print(f"Valor máximo de manchas solares: {result[0]}")
                 print(f"Valor mínimo de manchas solares: {result[1]}")
+
+        elif option == 5:
+            try:
+                year = int(input("Digite o ano: "))
+            except ValueError:
+                print("Entrada inválida. Por favor, insira um ano válido.")
+                continue
+            if year not in daily_data:
+                print(f"Dados indisponíveis para o ano de {year}.")
+                continue
+            result = monthly_avg(daily_data, year)
+            print(f"A média mensal de manchas solares em {year} é: {result:.2f}")
+
+        elif option == 6:
+            try:
+                year = int(input("Digite o ano: "))
+            except ValueError:
+                print("Entrada inválida. Por favor, insira um ano válido.")
+                continue
+
+            if year not in daily_data:
+                print(f"Dados indisponíveis para o ano de {year}.")
+                continue
+
+            month = int(input("Digite o mês (1-12): "))
+            while 1 < month > 12:
+                print("Mês inválido. Por favor, insira um mês entre 1 e 12.")
+                month = int(input("Digite o mês (1-12): "))
+            
+            result = monthly_std_dev(daily_data, year, month)
+            if result is None:
+                print("Dados indisponíveis para o mês e ano especificados.")
+            else:
+                print(f"O desvio padrão mensal de manchas solares em {month_int2str(month)} de {year} é: {result:.2f}")
     return

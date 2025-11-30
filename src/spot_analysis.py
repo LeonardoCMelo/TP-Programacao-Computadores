@@ -41,30 +41,31 @@ def year_month_without_sunspots(daily_data: dict, date1: str, date2: str) -> tup
 
     _, m1, y1 = date_str2int(date1)
     _, m2, y2 = date_str2int(date2)
-
+    result = ()
     if None in (m1, y1, m2, y2):
-        return None, None
+        result = (None, None)
+    else:
+        max_wo_spots = -1
+        best_year, best_month = None, None
 
-    max_wo_spots = -1
-    best_year, best_month = None, None
+        for year in range(y1, y2 + 1):
+            for month in range(1, 13):
+                if (year == y1 and month < m1) or (year == y2 and month > m2):
+                    continue
+                if year not in daily_data or month not in daily_data[year]:
+                    continue
 
-    for year in range(y1, y2 + 1):
-        for month in range(1, 13):
-            if (year == y1 and month < m1) or (year == y2 and month > m2):
-                continue
-            if year not in daily_data or month not in daily_data[year]:
-                continue
+                days_wo_spots = sum(
+                    1
+                    for value in daily_data[year][month].values()
+                    if value in (0, None)
+                )
 
-            days_wo_spots = sum(
-                1
-                for value in daily_data[year][month].values()
-                if value in (0, None)
-            )
-
-            if days_wo_spots > max_wo_spots:
-                max_wo_spots = days_wo_spots
-                best_month, best_year = month, year
-    return best_month, best_year
+                if days_wo_spots > max_wo_spots:
+                    max_wo_spots = days_wo_spots
+                    best_month, best_year = month, year
+        result = (best_month, best_year)
+    return result
 
 def year_month_most_sunspots(daily_data: dict, date1: str, date2: str) -> tuple[int, int]:
     """
@@ -82,33 +83,35 @@ def year_month_most_sunspots(daily_data: dict, date1: str, date2: str) -> tuple[
     d1, m1, y1 = date_str2int(date1)
     d2, m2, y2 = date_str2int(date2)
 
+    result = ()
+
     if None in (d1, m1, y1, d2, m2, y2):
-        return None, None
+        result = None, None
+    else:
+        max_total = -1
+        best_year, best_month = None, None
 
-    max_total = -1
-    best_year, best_month = None, None
+        for year in range(y1, y2 + 1):
+            first_month = m1 if year == y1 else 1
+            last_month = m2 if year == y2 else 12
 
-    for year in range(y1, y2 + 1):
-        first_month = m1 if year == y1 else 1
-        last_month = m2 if year == y2 else 12
+            for month in range(first_month, last_month + 1):
+                if (year == y1 and month < m1) or (year == y2 and month > m2):
+                    continue
+                if year not in daily_data or month not in daily_data[year]:
+                    continue
 
-        for month in range(first_month, last_month + 1):
-            if (year == y1 and month < m1) or (year == y2 and month > m2):
-                continue
-            if year not in daily_data or month not in daily_data[year]:
-                continue
+                total = sum(
+                    value or 0
+                    for value in daily_data[year][month].values()
+                    if value is not None
+                )
 
-            total = sum(
-                value or 0
-                for value in daily_data[year][month].values()
-                if value is not None
-            )
-
-            if total > max_total:
-                max_total = total
-                best_year, best_month = year, month
-
-    return best_month, best_year
+                if total > max_total:
+                    max_total = total
+                    best_year, best_month = year, month
+        result = best_month, best_year
+    return result
 
 def max_min_sunspots(daily_data: dict[dict[dict[int]]], date1: str, date2: str) -> tuple[int, int]:
     """
@@ -129,26 +132,28 @@ def max_min_sunspots(daily_data: dict[dict[dict[int]]], date1: str, date2: str) 
     d1, m1, y1 = date_str2int(date1)
     d2, m2, y2 = date_str2int(date2)
 
+    result = ()
+
     if None in (d1, m1, y1, d2, m2, y2):
-        return None, None
-    
-    for year in range(y1, y2 + 1):
-        first_month = m1 if year == y1 else 1
-        last_month = m2 if year == y2 else 12
-        for month in range(first_month, last_month + 1):
-            for day in daily_data[year][month]:
-                value = daily_data[year][month][day]
+        result = None, None
+    else:
+        for year in range(y1, y2 + 1):
+            first_month = m1 if year == y1 else 1
+            last_month = m2 if year == y2 else 12
+            for month in range(first_month, last_month + 1):
+                for day in daily_data[year][month]:
+                    value = daily_data[year][month][day]
 
-                if value is None:
-                    continue
+                    if value is None:
+                        continue
 
-                if max_sunspot == None or value > max_sunspot:
-                    max_sunspot = value
+                    if max_sunspot == None or value > max_sunspot:
+                        max_sunspot = value
 
-                if min_sunspot == None or value < min_sunspot:
-                    min_sunspot = value
-
-    return max_sunspot, min_sunspot
+                    if min_sunspot == None or value < min_sunspot:
+                        min_sunspot = value
+        result = max_sunspot, min_sunspot
+    return result
 
 def monthly_std_dev(daily_data: dict, year: int, month: int) -> float:
     """
@@ -161,17 +166,49 @@ def monthly_std_dev(daily_data: dict, year: int, month: int) -> float:
     Returns:
         float: Desvio padrão das manchas solares para o mês especificado.
     """
-    if year not in daily_data or month not in daily_data[year]:
-        return None
     
-    values = list(daily_data[year][month].values())
-    n = len(values)
+    if year not in daily_data or month not in daily_data[year]:
+        result = None
+    else:
+        values = list(daily_data[year][month].values())
+        n = len(values)
 
-    if n < 2:
-        return None
+        if n < 2:
+            return None
 
-    avg = sum(values) / n
-    square_sum = sum((v - avg) ** 2 for v in values)
+        avg = sum(values) / n
+        square_sum = sum((v - avg) ** 2 for v in values)
 
-    std_dev = math.sqrt(square_sum / (n - 1))
-    return std_dev
+        std_dev = math.sqrt(square_sum / (n - 1))
+        
+        result = std_dev
+
+    return result
+
+def monthly_avg(daily_data: dict, year: int) -> tuple:
+    """
+    Calcula a média mensal de manchas solares para cada mês de um ano específico.
+    Args:
+        daily_data (dict): Dados diários de manchas solares.
+        year (int): Ano específico.
+    
+    Returns:
+        tuple: Tupla contendo a média mensal de manchas solares para cada mês (índices 0-11 correspondem a janeiro-dezembro).
+    """
+    result = []
+    for month in range(1, 13):
+        if year in daily_data and month in daily_data[year]:
+            values = [
+                value
+                for value in daily_data[year][month].values()
+                if value is not None
+            ]
+            if values:
+                avg = sum(values) / len(values)
+                result.append(avg)
+            else:
+                result.append(None)
+        else:
+            result.append(None)
+    result = tuple(result)
+    return result
