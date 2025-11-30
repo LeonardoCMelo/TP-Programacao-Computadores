@@ -1,4 +1,5 @@
 from help_functions import date_str2int
+import math
 
 def count_days_without_spot(daily_data: dict, year: int) -> list:
     """
@@ -148,3 +149,29 @@ def max_min_sunspots(daily_data: dict[dict[dict[int]]], date1: str, date2: str) 
                     min_sunspot = value
 
     return max_sunspot, min_sunspot
+
+def monthly_std_dev(daily_data: dict, year: int, month: int) -> float:
+    """
+    Calcula o desvio padrão mensal das manchas solares para um mês e ano específicos.
+    Args:
+        daily_data (dict): Dados diários de manchas solares.
+        year (int): Ano específico.
+        month (int): Mês específico.
+    
+    Returns:
+        float: Desvio padrão das manchas solares para o mês especificado.
+    """
+    if year not in daily_data or month not in daily_data[year]:
+        return None
+    
+    values = list(daily_data[year][month].values())
+    n = len(values)
+
+    if n < 2:
+        return None
+
+    avg = sum(values) / n
+    square_sum = sum((v - avg) ** 2 for v in values)
+
+    std_dev = math.sqrt(square_sum / (n - 1))
+    return std_dev
